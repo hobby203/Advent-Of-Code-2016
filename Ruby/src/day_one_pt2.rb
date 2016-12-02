@@ -1,4 +1,4 @@
-class DayOne
+class DayOnePartTwo
 
   def get_distance(instruction_string)
     directions = to_array(instruction_string)
