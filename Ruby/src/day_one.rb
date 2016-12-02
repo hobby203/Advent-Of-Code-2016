@@ -1,7 +1,53 @@
 class DayOne
-  def initialize()
-    @instructions = "R4, R3, R5, L3, L5, R2, L2, R5, L2, R5, R5, R5, R1, R3, L2, L2, L1, R5, L3, R1, L2, R1, L3, L5, L1, R3, L4, R2, R4, L3, L1, R4, L4, R3, L5, L3, R188, R4, L1, R48, L5, R4, R71, R3, L2, R188, L3, R2, L3, R3, L5, L1, R1, L2, L4, L2, R5, L3, R3, R3, R4, L3, L4, R5, L4, L4, R3, R4, L4, R1, L3, L1, L1, R4, R1, L4, R1, L1, L3, R2, L2, R2, L1, R5, R3, R4, L5, R2, R5, L5, R1, R2, L1, L3, R3, R1, R3, L4, R4, L4, L1, R1, L2, L2, L4, R1, L3, R4, L2, R3, L1, L5, R4, R5, R2, R5, R1, R5, R1, R3, L3, L2, L2, L5, R2, L2, R5, R5, L2, R3, L5, R5, L2, R4, R2, L1, R3, L5, R3, R2, R5, L1, R3, L2, R2, R1"
-    @initial = [0,0]
-    @end = [0,0]
+
+  def get_distance(instruction_string)
+    directions = to_array(instruction_string)
+    return calculate_distance(directions)
+  end
+
+  private def calculate_distance(directions)
+    current_pos = [0,0,Direction::N]
+    directions.each do |d|
+      update_pos(current_pos, d)
+    end
+    return current_pos[0]+current_pos[1]
+  end
+
+  private def update_pos(pos,d)
+    heading = d[0]
+    distance = d[1..-1].to_i
+    update_heading(pos,heading)
+    case pos[2]
+      when Direction::N, Direction::E
+        pos[1] += distance
+      when Direction::S, Direction::W
+        pos[1] -= distance
+      else
+        puts "oh dear"
+    end
+
+  end
+
+  private def update_heading(pos, heading)
+    case heading
+      when 'R'
+        pos[2] = (pos[2]+1)%4
+      when 'L'
+        pos[2] = (pos[2]-1)%4
+      else
+        puts "Invalid Direction"
+    end
+  end
+
+  private def to_array(string)
+    trimmed_string = string.delete " "
+    return trimmed_string.split(',')
+  end
+
+  private module Direction
+    N = 0
+    E = 1
+    S = 2
+    W = 3
   end
 end
