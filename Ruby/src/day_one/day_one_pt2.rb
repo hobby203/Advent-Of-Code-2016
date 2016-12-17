@@ -2,15 +2,15 @@ class DayOnePartTwo
 
   def get_distance(instruction_string)
     directions = to_array(instruction_string)
-    return calculate_distance(directions)
+    calculate_distance(directions)
   end
 
   private def calculate_distance(directions)
-    current_pos = [0,0,Direction::N]
+    current_pos = [0,0,Direction::NORTH]
     directions.each do |d|
       update_pos(current_pos, d)
     end
-    return current_pos[0]+current_pos[1]
+    current_pos[0]+current_pos[1]
   end
 
   private def update_pos(pos,d)
@@ -18,12 +18,12 @@ class DayOnePartTwo
     distance = d[1..-1].to_i
     update_heading(pos,heading)
     case pos[2]
-      when Direction::N, Direction::E
+      when Direction::NORTH, Direction::EAST
         pos[1] += distance
-      when Direction::S, Direction::W
+      when Direction::SOUTH, Direction::WEST
         pos[1] -= distance
       else
-        puts "oh dear"
+        puts 'oh dear'
     end
 
   end
@@ -41,14 +41,14 @@ class DayOnePartTwo
   end
 
   private def to_array(string)
-    trimmed_string = string.delete " "
-    return trimmed_string.split(',')
+    trimmed_string = string.delete ' '
+    trimmed_string.split(',')
   end
 
   module Direction
-    N = 0
-    E = 1
-    S = 2
-    W = 3
+    NORTH = 0
+    EAST = 1
+    SOUTH = 2
+    WEST = 3
   end
 end
